@@ -227,8 +227,8 @@ void test10(){
     int ny = 8*nx; // Numero di celle in y
     double dx = 0.25/nx; // Spaziatura in x
     double dy = 1.0/ny; // Spaziatura in y
-    double dt = 0.005; // Passo temporale
-    int nit = 10000;
+    double dt = 0.0001; // Passo temporale
+    int nit = 20000;
     std::string prob = "RTI";
     Grid grid(nx, ny, dx, dy,prob);
     grid.initialize(); // Configura i valori iniziali
