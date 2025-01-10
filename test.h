@@ -223,7 +223,7 @@ void test9(){
 }
 
 void test10(){
-    int nx = 64; // Numero di celle in x
+    int nx = 32; // Numero di celle in x
     int ny = 8*nx; // Numero di celle in y
     double dx = 0.25/nx; // Spaziatura in x
     double dy = 1.0/ny; // Spaziatura in y
