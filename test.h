@@ -275,3 +275,62 @@ void test11(){
     Print print;
     print.printGridToFiles1D(grid);
 }
+
+void test15(){
+    Flux flux(1,1,1,1,1);
+    int n = 20;  // Numero di celle
+    std::vector<double> x(n);  // Vettore delle posizioni sulla griglia
+    std::vector<double> values(n);  // Vettore dei valori del polinomio
+
+// Creiamo una griglia uniformemente distribuita
+    for (int i = 0; i < n; i++) {
+        x[i] = (1.0/n) * i;  // Posizioni uniformi tra 0 e 10
+        values[i] = polynomial(x[i]);
+    }
+    std::vector<std::vector<double>> fi(5, std::vector<double>(n));
+    std::vector<std::vector<double>> gi(5, std::vector<double>(n));
+
+    std::vector<std::vector<double>> um(n,std::vector<double>(1));
+    std::vector<std::vector<double>> up(n,std::vector<double>(1));
+    std::vector<std::vector<double>> f,g,fh;
+    double f1,f2,f3,f4,f5;
+
+    for (int i = 2; i < n-2 ; i++) {
+        f1 = polynomial(x[i-2]);  // Cella i-2
+        f2 = polynomial(x[i-1]);  // Cella i-1
+        f3 = polynomial(x[i]);      // Cella i
+        f4 = polynomial(x[i+1]);  // Cella i+1
+        f5 = polynomial(x[i+2]);
+        gi[0][i] = polynomial(x[i+1]);  // Cella i-2
+        gi[1][i] = polynomial(x[i]);  // Cella i-1
+        gi[2][i] = polynomial(x[i]);      // Cella i
+        gi[3][i] = polynomial(x[i-2]);  // Cella i+1
+        gi[4][i] = polynomial(x[i-3]);// Cella i+2
+        f = {{f1},{f2},{f3},{f4},{f5}};
+        g = {{gi[0][i]},{gi[1][i]},{gi[2][i]},{gi[3][i]},{gi[4][i]}};
+        um[i] = flux.WENO5(f);// Chiamata alla funzione
+    }
+    double total_error = 0;
+    for (int i = 2; i < n-2; i++) {
+        // Valore esatto del polinomio
+        double plus = .5;
+        double error = std::abs((um[i][0])- polynomial(x[i]+(plus/n)));  // Errore medio
+        // Errore ricostruito up
+        total_error += error;
+
+        // Stampa dei risultati per ogni punto
+        std::cout <</* "x[" << i <<*/ "(" << x[i]
+                  //<< " : Exact = " << polynomial(x[i]+(plus/n))
+                  //<< ", Reconstructed - = " << um[i][0]
+                  << "," << um[i][0]
+                  << ")" << std::endl;
+                  //<< ", Ratio = " << polynomial(x[i]+(plus/n))/um[i][0]
+                  //<< ", Error = " << error << std::endl;
+    }
+
+    // Calcolo delle medie
+    double mean_error = total_error / n;
+
+    // Stampa della media degli errori
+    std::cout << "Mean Error = " << mean_error << std::endl;
+}
