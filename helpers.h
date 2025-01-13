@@ -22,3 +22,4 @@ std::vector<double> superBee(std::vector<double> & r);
 void print(std::vector<double> vect);
 double max(double a, double b);
 double min(double a, double b);
+double polynomial(double x);
