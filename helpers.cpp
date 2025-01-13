@@ -101,3 +101,7 @@ std::vector<double> superBee(std::vector<double> & r){
     }
     return out;
 }
+
+double polynomial(double x){
+        return /*x*x*x*x*x + x*x*x*x +*/  x*x*x + x * x  + 2 * x + 1;
+}
